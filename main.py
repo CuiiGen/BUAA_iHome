@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
+import _thread
 import logging
 from os import makedirs
 from time import localtime, strftime
 
 import requests
 from lxml import etree
-import _thread
 
 # 配置logging模块
 logging.basicConfig(
@@ -113,7 +113,7 @@ def main():
         # 获取outerhtml
         table = etree.tostring(complain_list[0], encoding='utf-8',method='html').decode('utf-8')
         # 保存结果
-        with open(f'{path}/a.html', 'a', encoding='utf-8') as f:
+        with open(f'{path}/index.html', 'a', encoding='utf-8') as f:
             f.write(table)
             f.flush()
         # 下一页
