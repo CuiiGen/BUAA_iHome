@@ -85,6 +85,45 @@ def main():
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36',
         'X-Requested-With': 'XMLHttpRequest'
     }
+    style = '''
+    <style>
+            table {
+                    border-collapse: collapse;
+                    margin: 0 auto;
+                    text-align: left;
+            }
+
+            table th {
+                    border: 1px solid #cad9ea;
+                    color: #666;
+                    height: 30px;
+            }
+
+            table thead th {
+                    background-color: #CCE8EB;
+                    width: 100px;
+            }
+
+            table tr:nth-child(odd) {
+                    background: #fff;
+            }
+
+            table tr:nth-child(even) {
+                    background: #F5FAFA;
+            }
+
+            a:link {
+                    color: cornflowerblue;
+            }
+
+            a:visited {
+                    color: darkolivegreen;
+            }
+    </style>
+    '''
+    with open(f'{path}/index.html', 'a', encoding='utf-8') as f:
+        f.write(style)
+        f.flush()
 
     # 页码循环
     page = 1
@@ -105,11 +144,12 @@ def main():
         # 修改href
         for i in href:
             j = i.attrib.get('href')[32:]
-            _thread.start_new_thread(getDetail, (j,))
+            _thread.start_new_thread(getDetail, (j, ))
             # getDetail(j)
             i.set('href', f'complain_item/{j}.html')
         # 获取列表
         complain_list = h.xpath('//div[@class="complain_list_container"]/table[@class="complain_list"]')
+        complain_list[0].set('cellpadding', '15')
         # 获取outerhtml
         table = etree.tostring(complain_list[0], encoding='utf-8',method='html').decode('utf-8')
         # 保存结果
